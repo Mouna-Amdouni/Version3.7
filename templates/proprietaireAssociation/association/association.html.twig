@@ -52,6 +52,7 @@
 
 
                                 <th>Ajouter une opportunité</th>
+                                <th>Ajouter une evenement</th>
                                 <th>Ajouter d'autre informations</th>
                                 {# <th>Suprimer</th> #}
                                 </thead>
@@ -74,6 +75,9 @@
                                             {# <td>{%  if categorie.categorieParente %} {{ categorie.categorieParente.libelle }} {% endif %}</td> #}
                                             <td><a class="btn btn-primary"
                                                    href="{{ path('OP_new',{"id":associations.id}) }}"><i
+                                                            class="fa fa-edit"></i></a></td>
+                                            <td><a class="btn btn-primary"
+                                                   href="{{ path('EV_new',{"id":associations.id}) }}"><i
                                                             class="fa fa-edit"></i></a></td>
                                             <td><a class="btn btn-primary"
                                                    href="{{ path('association_ajoutInfo',{"id":associations.id}) }}"><i

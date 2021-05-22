@@ -63,6 +63,7 @@
 
 {#                                            <td>{{ opportunite.region }}</td>#}
                                             <td>
+                                                {% if not a.isDeleted %}
                                                 {% if a.isValid %}
                                                     <a class="btn btn-success activate-link"
                                                        href="{{ path('changevalidite_activite', {'id': a.id}) }}">
@@ -72,6 +73,9 @@
                                                        href="{{ path('changevalidite_activite', {'id': a.id}) }}">
                                                         <i class="fa fa-times"></i></a>
                                                 {% endif %}
+                                                    {% else %}
+                                                    deja supprimé
+                                                        {% endif %}
                                             </td>
                                             <td>
 
@@ -79,7 +83,7 @@
 {#                                                       href="{{ path('deleteActiv', {'id': a.id}) }}">#}
 {#                                                        <i class="fa fa-trash"></i></a>#}
                                                 {#                                                 <a href="{{ path('activite_delete', {'id': a.id}) }}" class="btn btn-danger disable-btn del-link" type="submit" ><i class="fa fa-trash"></i></a>#}
-                                                                                                 <form method="post" action="{{ path('activite_delete', {'id': a.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                                                                                 <form method="post" action="{{ path('activite_delete', {'id': a.id}) }}" onsubmit="return confirm('etes vous sure de supprimer cette activité?');">
                                                                                                      <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ a.id) }}">
                                                                                                      <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
 

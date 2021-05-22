@@ -118,10 +118,16 @@ class Association
      */
     private $activites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="association")
+     */
+    private $evenements;
+
     public function __construct()
     {
         $this->opportunites = new ArrayCollection();
         $this->activites = new ArrayCollection();
+        $this->evenements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -403,5 +409,35 @@ class Association
     public function __toString()
     {
         return $this->getTitre();
+    }
+
+    /**
+     * @return Collection|Evenement[]
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->setAssociation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getAssociation() === $this) {
+                $evenement->setAssociation(null);
+            }
+        }
+
+        return $this;
     }
 }

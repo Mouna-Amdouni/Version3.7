@@ -31,7 +31,7 @@ class EditProfile extends AbstractType
 
 
 //            ->add("username", TextType::class, ["label" => $this->translator->trans('backend.user.username')])
-            ->add('username',null,["label"=>'Retapez votre nom ','required'=>true,'constraints'=>[
+            ->add('username',null,["label"=>'Retapez le nom ','required'=>true,'constraints'=>[
                 new Length([
                     'min' => 5,
                     'max' => 15,
@@ -39,78 +39,78 @@ class EditProfile extends AbstractType
                 ]),]])
 //            ->add("email", EmailType::class)
 
-            ->add('nomComplet',null,["label"=>'Retapez votre nom Complet ','required'=>true,'constraints'=>[
+            ->add('nomComplet',null,["label"=>'Retapez le nom Complet ','required'=>true,'constraints'=>[
                 new Length([
                     'min' => 3,
                     'max' => 20,
                     'exactMessage'=>'Nom entre 3 et 20 caractères',
                 ]),]])
-            ->add('email',EmailType::class,["label"=>"Retapez votre adresse e-mail",'required'=>true,'constraints'=>[
+            ->add('email',EmailType::class,["label"=>"Retapez le adresse e-mail",'required'=>true,'constraints'=>[
                 new Email(['mode' => 'strict']),
             ]])
-            ->add('numeroTel',IntegerType::class,["label"=>'Retapez votre numéro de Téléphone : ','required'=>true, 'constraints'=>[
+            ->add('numeroTel',IntegerType::class,["label"=>'Retapez le numéro de Téléphone : ','required'=>true, 'constraints'=>[
                 new Length([
                     'min' => 8,
                     'max' => 8,
                     'exactMessage'=>'Le numéro de téléphone doit contenir exactement {{ limit }}  chiffres',
                 ]),]])
-            ->add('lienFbk',null,["label"=>'Retapez votre lien Facebook ','required'=>false,'constraints'=>[
+            ->add('lienFbk',null,["label"=>'Retapez le lien Facebook ','required'=>false,'constraints'=>[
                 new Length([
                     'min' => 10,
 
                     'exactMessage'=>'taper votre lien facebook correctement',
                 ]),]])
-            ->add('lienInstagram',null,["label"=>'Retapez votre lien Instagram ','required'=>false,'constraints'=>[
+            ->add('lienInstagram',null,["label"=>'Retapez le lien Instagram ','required'=>false,'constraints'=>[
                 new Length([
                     'min' => 10,
 
                     'exactMessage'=>'taper votre lien instagram correctement',
                 ]),]])
-            ->add('cv', FileType::class, [
-                'label' => 'CV (PDF)',
-
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
-                'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
-                    ])
-                ],
-            ])
-
-
-            ->add('video', FileType::class, [
-                'label' => 'Video',
-
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
-                'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-                'constraints' => [
-                    new File([
-                        'maxSize' => '250M',
-                        'mimeTypes' => 'video/*' ,
-                        'mimeTypesMessage' => 'Please upload a valid video format',
-                    ])
-                ],
-            ])
+//            ->add('cv', FileType::class, [
+//                'label' => 'CV (PDF)',
+//
+//                // unmapped means that this field is not associated to any entity property
+//                'mapped' => false,
+//
+//                // make it optional so you don't have to re-upload the PDF file
+//                // every time you edit the Product details
+//                'required' => false,
+//
+//                // unmapped fields can't define their validation using annotations
+//                // in the associated entity, so you can use the PHP constraint classes
+//                'constraints' => [
+//                    new File([
+//                        'maxSize' => '1024k',
+//                        'mimeTypes' => [
+//                            'application/pdf',
+//                            'application/x-pdf',
+//                        ],
+//                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+//                    ])
+//                ],
+//            ])
+//
+//
+//            ->add('video', FileType::class, [
+//                'label' => 'Video',
+//
+//                // unmapped means that this field is not associated to any entity property
+//                'mapped' => false,
+//
+//                // make it optional so you don't have to re-upload the PDF file
+//                // every time you edit the Product details
+//                'required' => false,
+//
+//                // unmapped fields can't define their validation using annotations
+//                // in the associated entity, so you can use the PHP constraint classes
+//                'constraints' => [
+//                    new File([
+//                        'maxSize' => '250M',
+//                        'mimeTypes' => 'video/*' ,
+//                        'mimeTypesMessage' => 'Please upload a valid video format',
+//                    ])
+//                ],
+//            ])
 //            ->add("nomComplet", TextType::class, ["label" => $this->translator->trans('backend.user.name')])
 //            ->add("justpassword", TextType::class, [
 //                "label" => $this->translator->trans('backend.user.password'),

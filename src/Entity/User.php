@@ -185,6 +185,30 @@ class User implements UserInterface, EquatableInterface
      * @ORM\OneToMany(targetEntity=Specialite::class, mappedBy="user")
      */
     private $specialites;
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $validcv;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="user")
+     */
+    private $evenements;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Participation::class, inversedBy="user")
+     */
+    private $participation;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Participation::class, mappedBy="user")
+     */
+    private $participations;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Evenement::class, mappedBy="participants")
+     */
+    private $events;
 
 
     public function __construct()
@@ -203,6 +227,9 @@ class User implements UserInterface, EquatableInterface
         $this->regles = new ArrayCollection();
         $this->activites = new ArrayCollection();
         $this->specialites = new ArrayCollection();
+        $this->evenements = new ArrayCollection();
+        $this->participations = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -966,5 +993,120 @@ class User implements UserInterface, EquatableInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Evenement[]
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getUser() === $this) {
+                $evenement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParticipation(): ?Participation
+    {
+        return $this->participation;
+    }
+
+    public function setParticipation(?Participation $participation): self
+    {
+        $this->participation = $participation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participation[]
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            // set the owning side to null (unless already changed)
+            if ($participation->getUser() === $this) {
+                $participation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Evenement[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Evenement $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Evenement $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeParticipant($this);
+        }
+
+        return $this;
+    }
+    public function getValidcv(): ?bool
+    {
+        return $this->validcv;
+    }
+
+    public function setValidcv(?bool $validcv): self
+    {
+        $this->validcv = $validcv;
+
+        return $this;
+    }
+
+    public function isValidcv(): ?bool
+    {
+        return $this->validcv;
     }
 }

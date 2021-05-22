@@ -181,7 +181,7 @@ $ass=$associationRepository->find($user);
           ->add('association',  ChoiceType::class, [
 //              'choices'=>array($ass->getTitre() =>$a,
 
-              'choices'=>array(0=>$a,
+              'choices'=>array($a,
 
               ),
               'label' => "Entrez la description detaillé de cette activité   "

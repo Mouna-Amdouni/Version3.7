@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Liste des Spécialites</h2>
+                            <h2>Liste des jeunes Experts</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 {# <li><a href="{{ path('newAss',{'idPA':app.user.id}) }}" class="btn btn-success">NEW</a> #}
 
@@ -39,13 +39,16 @@
                                 <table id="example" class="display table table-striped table-bordered dataminetables">
                                     <thead>
                                     <th><input type="checkbox" id="select_all" name="select_all"></th>
-                                    <th>Type specialite</th>
+
                                     <th>Jeune Expert</th>
+                                    <th>Type specialite</th>
+                                    <th>CV</th>
+                                    <th>Num Tel</th>
 
 
 
-
-                                    <th>Mettre En Ligne ?</th>
+                                    <th>Valider la spécialite ?</th>
+                                    <th>Valider le cv ?</th>
                                     <th>Suprimer</th>
                                     </thead>
                                     <tbody>
@@ -54,9 +57,12 @@
                                             <td><input type="checkbox" class="chkgrp" name="chkgrp[]"
                                                        value="{{ s.id }}"></td>
 
-                                            <td>{{ s.type }}</td>
-                                            <td>{{ s.user.nomComplet }}</td>
 
+                                            <td>{{ s.user.nomComplet }}</td>
+                                            <td>{{ s.type }}</td>
+                                            <td><a class="btn btn-primary btn-info btn-sm" href="{{ asset('uploads/cvs/'  ~ s.user.cv) }}">Voir le CV</a>
+                                            </td>
+                                            <td>{{ s.user.numerotel }} </td>
                                             <td>
                                                 {% if s.isValid %}
                                                     <a class="btn btn-success activate-link"
@@ -68,6 +74,18 @@
                                                         <i class="fa fa-times"></i></a>
                                                 {% endif %}
                                             </td>
+                                            <td>
+                                                {% if s.user.validcv %}
+                                                    <a class="btn btn-success activate-link"
+                                                       href="{{ path('changevalidite_cv', {'id': s.user.id}) }}">
+                                                        <i class="fa fa-check"></i></a>
+                                                {% else %}
+                                                    <a class="btn btn-warning activate-link"
+                                                       href="{{ path('changevalidite_cv', {'id': s.user.id}) }}">
+                                                        <i class="fa fa-times"></i></a>
+                                                {% endif %}
+                                            </td>
+
                                             {# <td><a class="btn btn-primary" href="{{ path('association_edit',{"id":opportunite.id}) }}"><i class="fa fa-edit"></i></a></td> #}
 
                                             {# <td><a href="{{ path('dd', {'id': opportunite.id}) }}" class="btn btn-danger disable-btn del-link" type="submit" ><i class="fa fa-trash"></i></a></td> #}

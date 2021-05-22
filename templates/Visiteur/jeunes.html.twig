@@ -2,8 +2,94 @@
 
 
 {% block contenpage %}
-
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .cont {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 940px;
+            margin: auto;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+        }
+        .card-header video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            padding: 20px;
+            min-height: 180px;
+        }
+        .tag {
+            background-color: #ccc;
+            color: #fff;
+            border-radius: 50px;
+            font-size: 12px;
+            margin: 0;
+            padding: 2px 10px;
+            text-transform: uppercase;
+        }
+        .tag-teal {
+            background-color: #92d4e4;
+        }
+        .tag-purple {
+            background-color: #3d1d94;
+        }
+        .tag-pink {
+            background-color: #c62bcd;
+        }
+        .card-body h4 {
+            margin: 10px 0;
+        }
+        .card-body p {
+            font-size: 14px;
+            margin: 0 0 40px 0;
+            font-weight: 500;
+            color: rgb(70, 68, 68);
+        }
+        .user {
+            display: flex;
+
+        }
+        .user img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        .user-info h5 {
+            margin: 0;
+        }
+        .user-info small {
+            color: #888785;
+        }
+        @media (max-width: 940px) {
+            .cont {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+        }
+
+
+
+
+
         .search-result-categories>li>a {
             color: #b6b6b6;
             font-weight: 400
@@ -87,64 +173,59 @@
     </style>
 
     <h1 class="titre"> Jeunes Experts </h1>
+    <div class="cont">
+        {% for users in users|filter(users => not users.deleted) %}
+            {%  for r in users.roles %}
+                {% if r is same as "ROLE_JEXPERT" %}
 
+                    <div class="card">
+                        <div class="card-header">
+                            <video width="200" height="150" controls>
+                                <source src="{{ asset('uploads/videos/'  ~ users.video) }}" >
 
-    <div>
-        <div>
+                            </video>
+                        </div>
 
-            <div>
+                        <div class="card-body">
 
-
-                {% for users in users|filter(users => not users.deleted) %}
-                    {%  for r in users.roles %}
-                        {% if r is same as "ROLE_JEXPERT" %}
-
-
-                            <section class="search-result-item">
-                                <a class="image-link" href="#">
-                                    <video width="200" height="150" controls>
-                                        <source src="{{ asset('uploads/cvs/'  ~ users.video) }}" >
-
-                                    </video>
-                                </a>
-                                <div class="search-result-item-body">
-                                    <div class="row">
-                                        <div class="col-sm-9">
-
-                                            <h4 class="search-result-item-heading"><a href="#">{{ users.nomComplet }}</a></h4>
-                                            <p class="info">Jeune Expert</p>
-                                            <p class="info">{{users.email}}</p>
-                                            {% for s in specialites | filter(specialites => specialites.isValid)  %}
-                                                {% if s.user.id is same as users.id %}
-                                                    <p class="info"><i class="fas fa-arrow-right"></i>
-
-                                                        {{s.type}}</p>
-                                                    <p class="description">{{ s.description }}</p>
-
-                                                {% endif %}
-                                            {% endfor %}
-
-
-                                        </div>
-                                        <div class="col-sm-3 text-align-center">
-
-                                            <a class="btn btn-primary btn-info btn-sm" href="{{ asset('uploads/cvs/'  ~ users.cv) }}">Voir le CV</a>
-
-                                        </div>
+                            {% for s in specialites | filter(specialites => specialites.isValid)  %}
+                                {% if s.user.id is same as users.id %}
+                                    {% if users.validcv == true  %}
+                                        <div class="w3-show-inline-block">
+                                    {% endif %}
+                                    <span class="tag tag-teal">{{s.type}}   </span>
                                     </div>
+                                {% endif %}
+                            {% endfor %}
+                            <p></p>
+                            <div class="user">
+                                <img src="{{ asset('uploads/images/'  ~ users.logo) }}"" alt="" />
+                                <div class="user-info">
+                                    <h5>{{users.nomComplet }}</h5>
+
+                                    <small>{{users.email}} / {{users.numeroTel}}</small>
+
                                 </div>
-                            </section>
+
+                            </div>
+                            </br>
+                            </br>
+                            <div class="w3-show-inline-block">
+                                <a class="btn btn-primary" style="background-color: #3b5998;" href="{{users.lienFbk}}" role="button"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-primary" style="background-color: #ac2bac;" href="{{users.lienInstagram}}" role="button"><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-primary" href="{{ asset('uploads/cvs/'  ~ users.cv) }}">CV</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
 
 
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-
-
-
-            </div>
-        </div>
     </div>
+
 
 
 

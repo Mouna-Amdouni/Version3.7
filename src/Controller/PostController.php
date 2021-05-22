@@ -420,14 +420,14 @@ class PostController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function indexpostadmin(PublicationRepository $repository, Request $request): Response
+    public function indexpostadmin(ActualiteRepository $actualiteRepository,PublicationRepository $repository, Request $request): Response
     {
         $now = new \DateTime('now');
         $pubs = $repository->findAll();
         $commentaire = new Commentaire();
         $forms = [];
         $form = $this->createForm(CommentType::class, $commentaire);
-        return $this->render('admin/publications/publications.html.twig', ['now' => $now, 'pubs' => $pubs, 'form' => $form->createView()]);
+        return $this->render('admin/publications/publications.html.twig', ['actualites'=>$actualiteRepository->findAll(),'now' => $now, 'pubs' => $pubs, 'form' => $form->createView()]);
     }
     /**
      * @Route("/deletePub/{id}",name="adminPostdelete")

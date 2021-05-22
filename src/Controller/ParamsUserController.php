@@ -102,6 +102,7 @@ use App\Entity\User;
 use App\Form\AssociationEditFormType;
 use App\Form\ChangePwsdFormType;
 use App\Form\EditProfile;
+use App\Form\ProfilJeuneType;
 use App\Form\UserFormType;
 use App\Repository\ActualiteRepository;
 use App\Repository\AssociationRepository;
@@ -143,20 +144,6 @@ class ParamsUserController extends BaseController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $cvFile = $form->get('cv')->getData();
-            if ($cvFile) {
-                $cvfilename = md5(uniqid()) . '.' . $cvFile->guessExtension();
-                try {
-                    $cvFile->move(
-                        $this->getParameter('cvs_directory'),
-                        $cvfilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $user->setCv($cvfilename);
-            }
-
             $file = $form->get('logo')->getData();
             if ($file) {
                 $fileName = md5(uniqid()) . '.' . $file->guessExtension();
@@ -172,6 +159,51 @@ class ParamsUserController extends BaseController
                 $user->setLogo($fileName);
 
             }
+
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            $this->addFlash("success", "compte modifié");
+
+            return $this->redirectToRoute('indexx');
+        }
+
+        return $this->render("admin/user/editprofile.html.twig", ['editProfileform' => $form->createView(),
+
+            'form' => $form->createView(),
+            'actualites'=>$actualiteRepository->findAll()
+
+        ]);
+    }
+
+
+
+
+
+    /**
+     * @Route("/{id}/editJeune", name="jeune_edit", methods={"GET","POST"})
+     */
+    public function editProfilJeune(ActualiteRepository $actualiteRepository,Request $request, UserRepository $userRepository, ProfilJeuneType $Profilejeune, User $user): Response
+    {
+        $form = $this->createForm(ProfilJeuneType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $cvFile = $form->get('cv')->getData();
+            if ($cvFile) {
+                $cvfilename = md5(uniqid()) . '.' . $cvFile->guessExtension();
+                try {
+                    $cvFile->move(
+                        $this->getParameter('cvs_directory'),
+                        $cvfilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $user->setCv($cvfilename);
+            }
+
+
 
             $videoFile = $form->get('video')->getData();
             if ($videoFile) {
@@ -190,12 +222,12 @@ class ParamsUserController extends BaseController
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
-            $this->addFlash("success", "compte modifié");
+            $this->addFlash("success", "compte Jeune modifié");
 
             return $this->redirectToRoute('indexx');
         }
 
-        return $this->render("admin/user/editprofile.html.twig", ['editProfileform' => $form->createView(),
+        return $this->render("jeune/editjeuneprofile.html.twig", ['editJeuneform' => $form->createView(),
 
             'form' => $form->createView(),
             'actualites'=>$actualiteRepository->findAll()

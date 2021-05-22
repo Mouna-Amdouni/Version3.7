@@ -44,7 +44,9 @@
                                     <th>Auteur</th>
                                     <th>Date de publication</th>
 
+
                                     <th>contenue</th>
+                                    <th>Image</th>
 {#                                    <th>Adresse</th>#}
 {#                                    <th>Nombre des membres</th>#}
 
@@ -62,8 +64,12 @@
                                             <td>{{ p.datePub |date('d/m/Y H:i')}}</td>
 
                                             <td>{{ p.contenuPub }}</td>
-
-{#                                            <td>{{ associations.nombreMembre }}</td>#}
+                                            <td>
+{% for s in p.mutimedia %}
+                                                <a href="{{ asset('uploads/images/'  ~ s.source) }}">voir l'image</a>
+{% endfor %}
+                                            </td>
+                                                {#                                            <td>{{ associations.nombreMembre }}</td>#}
                                             {#                                                                        <td>{%  if categorie.categorieParente %} {{ categorie.categorieParente.libelle }} {% endif %}</td>#}
                                             <td><a class="btn btn-primary" href="{{ path('editPub',{"id":p.id}) }}"><i class="fa fa-edit"></i></a></td>
 <td>
